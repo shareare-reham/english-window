@@ -38,10 +38,6 @@ const wordsLoad = (lesson) => {
 };
 
 const displayWords = (words) => {
-  
-  document.getElementById("word-cards-container").classList.remove("hidden");
-  document.getElementById("no-vocub-msg").classList.add("hidden");
-
   const wordCards = document.getElementById("word-cards-container");
   wordCards.innerHTML = "";
 
@@ -58,10 +54,10 @@ const displayWords = (words) => {
             </h2>
           </div>
           <div class="flex justify-between items-center">
-            <div class="bg-[#1A91FF]/10 p-3 rounded-sm">
+            <div class="bg-[#1A91FF]/10 p-3 rounded-sm hover:bg-[#1A91FF]/80">
               <i class="fa-solid fa-circle-info" style="color: #374957"></i>
             </div>
-            <div class="bg-[#1A91FF]/10 p-3 rounded-sm">
+            <div class="bg-[#1A91FF]/10 p-3 rounded-sm hover:bg-[#1A91FF]/80">
               <i class="fa-solid fa-volume" style="color: #374957"></i>
             </div>
           </div>
@@ -73,8 +69,18 @@ const displayWords = (words) => {
 };
 
 const displayNoVocub = () => {
-  document.getElementById("word-cards-container").classList.add("hidden");
-  const cards = document.getElementById("word-cards-container");
-  cards.innerHTML ="";
-  document.getElementById("no-vocub-msg").classList.remove("hidden");
+  const wordCards = document.getElementById("word-cards-container");
+  wordCards.innerHTML = "";
+
+  wordCards.innerHTML = `
+      <div id="no-vocub-msg" class="col-span-full text-center" >
+        <img class="mx-auto" src="./assets/alert-error.png" alt=""/>
+        <p class="bangla text-[#79716B] text-lg my-4">
+          এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।
+        </p>
+        <h2 class="bangla text-[#292524] font-medium text-3xl">
+          নেক্সট Lesson এ যান
+        </h2>
+      </div>
+  `;
 };
