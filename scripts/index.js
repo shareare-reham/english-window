@@ -28,18 +28,29 @@ const wordsLoad = (lesson) => {
   const url = `https://openapi.programming-hero.com/api/level/${lesson}`;
   fetch(url)
     .then((response) => response.json())
-    .then((json) => displayWords(json.data));
+    .then(function (json) {
+      if (json.data.length > 0) {
+        return displayWords(json.data);
+      } else {
+        return displayNoVocub();
+      }
+    });
 };
 
 const displayWords = (words) => {
+  
+  document.getElementById("word-cards-container").classList.remove("hidden");
+  document.getElementById("no-vocub-msg").classList.add("hidden");
+
   const wordCards = document.getElementById("word-cards-container");
   wordCards.innerHTML = "";
 
   for (const word of words) {
     const card = document.createElement("div");
+
     card.innerHTML = `
-        <div class="bg-white p-10 rounded-sm h-full flex flex-col justify-between">
-          <div class="text-center">
+        <div class="bg-white p-10 rounded-sm h-full flex flex-col justify-between mb-10">
+          <div class="text-center items-center">
             <h2 class="font-bold text-3xl">${word.word}</h2>
             <p class="font-medium text-xl my-6">Meaning / Pronounciation</p>
             <h2 class="bangla text-[#18181B] font-semibold text-3xl mb-14">
@@ -59,4 +70,11 @@ const displayWords = (words) => {
 
     wordCards.appendChild(card);
   }
+};
+
+const displayNoVocub = () => {
+  document.getElementById("word-cards-container").classList.add("hidden");
+  const cards = document.getElementById("word-cards-container");
+  cards.innerHTML ="";
+  document.getElementById("no-vocub-msg").classList.remove("hidden");
 };

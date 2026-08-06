@@ -164,11 +164,20 @@
       ></div>
     </section>
     <section
-      class="w-11/12 bg-gray-200 p-8 mx-auto my-10 rounded-xl"
+      id="word-cards-container"
+      class="hidden w-11/12 bg-gray-200 p-8 mx-auto my-10 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-8"
+    ></section>
+    <section
+      id="no-vocub-msg"
+      class="hidden w-11/12 bg-gray-200 p-8 mx-auto my-10 rounded-xl text-center"
     >
-      <div id="word-cards-container" class="grid grid-cols-3 gap-8">
-        
-      </div>
+      <img class="mx-auto" src="./assets/alert-error.png" alt="" />
+      <p class="bangla text-[#79716B] text-lg my-4">
+        এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।
+      </p>
+      <h2 class="bangla text-[#292524] font-medium text-3xl">
+        নেক্সট Lesson এ যান
+      </h2>
     </section>
 
     <script src="./scripts/index.js"></script>
