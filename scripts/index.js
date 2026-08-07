@@ -1,3 +1,4 @@
+
 function lessonLoad() {
   fetch("https://openapi.programming-hero.com/api/levels/all")
     .then(function (response) {
@@ -120,16 +121,8 @@ const showDetails =(datas)=>{
             </div>
             <div>
               <h3 class="bangla font-medium text-xl mb-2">সমার্থক শব্দ গুলো</h3>
-              <div class="flex gap-4">
-                <div class="bg-[#D7E4EF] p-2 rounded-lg">
-                  <p>${datas.synonyms[0]}</p>
-                </div>
-                <div class="bg-[#D7E4EF] p-2 rounded-lg">
-                  <p>${datas.synonyms[1]}</p>
-                </div>
-                <div class="bg-[#D7E4EF] p-2 rounded-lg">
-                  <p>${datas.synonyms[2]}</p>
-                </div>
+              <div id="syn-container" class="flex gap-4">
+                
               </div>
             </div>
           </div>
@@ -141,5 +134,30 @@ const showDetails =(datas)=>{
           </div>
         </div>
   `;
+  synNames(datas.synonyms);
   my_modal_5.showModal()
 }
+
+const synNames = (synArr)=>{
+  const syn = document.getElementById("syn-container")
+  for(const synEl of synArr)
+  {
+    const synElement = document.createElement("div")
+    synElement.innerHTML =`
+                <div class="bg-[#D7E4EF] p-2 rounded-lg">
+                  <p>${synEl}</p>
+                </div>
+    `
+    syn.appendChild(synElement);
+  }
+}
+
+{/* <div class="bg-[#D7E4EF] p-2 rounded-lg">
+                  <p>${datas.synonyms[0]}</p>
+                </div>
+                <div class="bg-[#D7E4EF] p-2 rounded-lg">
+                  <p>${datas.synonyms[1]}</p>
+                </div>
+                <div class="bg-[#D7E4EF] p-2 rounded-lg">
+                  <p>${datas.synonyms[2]}</p>
+                </div> */}
