@@ -1,4 +1,3 @@
-
 function lessonLoad() {
   fetch("https://openapi.programming-hero.com/api/levels/all")
     .then(function (response) {
@@ -8,6 +7,16 @@ function lessonLoad() {
       return displayLessons(json.data);
     });
 }
+
+const spinnerManager = (status) => {
+  if (status == true) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("word-cards-container").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("word-cards-container").classList.remove("hidden");
+  }
+};
 
 function displayLessons(lessons) {
   const lessonContainer = document.getElementById("lesson-container");
@@ -33,6 +42,7 @@ const removeActive = () => {
 };
 
 const wordsLoad = (lesson) => {
+  spinnerManager(true);
   const url = `https://openapi.programming-hero.com/api/level/${lesson}`;
   const activeBtn = document.getElementById(`active-btn-${lesson}`);
   removeActive();
@@ -78,6 +88,7 @@ const displayWords = (words) => {
 
     wordCards.appendChild(card);
   }
+  spinnerManager(false);
 };
 
 const displayNoVocub = () => {
@@ -95,17 +106,17 @@ const displayNoVocub = () => {
         </h2>
       </div>
   `;
+  spinnerManager(false);
 };
 
 const detailsLoad = (id) => {
-  const url = `https://openapi.programming-hero.com/api/word/${id}`
+  const url = `https://openapi.programming-hero.com/api/word/${id}`;
   fetch(url)
-  .then((response) => response.json())
-  .then((json) => showDetails(json.data))
+    .then((response) => response.json())
+    .then((json) => showDetails(json.data));
 };
 
-const showDetails =(datas)=>{
- 
+const showDetails = (datas) => {
   const modal = document.getElementById("my_modal_5");
   modal.innerHTML = `
         <div class="modal-box rounded-2xl">
@@ -135,29 +146,44 @@ const showDetails =(datas)=>{
         </div>
   `;
   synNames(datas.synonyms);
-  my_modal_5.showModal()
-}
+  my_modal_5.showModal();
+};
 
-const synNames = (synArr)=>{
-  const syn = document.getElementById("syn-container")
-  for(const synEl of synArr)
-  {
-    const synElement = document.createElement("div")
-    synElement.innerHTML =`
+const synNames = (synArr) => {
+  const syn = document.getElementById("syn-container");
+  for (const synEl of synArr) {
+    const synElement = document.createElement("div");
+    synElement.innerHTML = `
                 <div class="bg-[#D7E4EF] p-2 rounded-lg">
                   <p>${synEl}</p>
                 </div>
-    `
+    `;
     syn.appendChild(synElement);
   }
-}
+};
 
-{/* <div class="bg-[#D7E4EF] p-2 rounded-lg">
-                  <p>${datas.synonyms[0]}</p>
-                </div>
-                <div class="bg-[#D7E4EF] p-2 rounded-lg">
-                  <p>${datas.synonyms[1]}</p>
-                </div>
-                <div class="bg-[#D7E4EF] p-2 rounded-lg">
-                  <p>${datas.synonyms[2]}</p>
-                </div> */}
+document.getElementById("search-btn").addEventListener("click", () => {
+  removeActive();
+  const input = document.getElementById("search-word").value;
+  const searchValue = input.trim().toLowerCase();
+
+  fetch("https://openapi.programming-hero.com/api/words/all")
+    .then((response) => response.json())
+    .then((json) => {
+      const allWords = json.data;
+      const filterWords = allWords.filter((item) =>
+        item.word.toLowerCase().includes(searchValue),
+      );
+      if(filterWords.length>0)
+      {
+        displayWords(filterWords);
+      }
+      else
+      {
+        const cardContainer = document.getElementById("word-cards-container")
+        cardContainer.innerHTML=`
+        <p class="text-[#79716B] font-bold text-3xl text-center col-span-full">Not Found</p>
+        `
+      }
+    });
+});
