@@ -80,7 +80,7 @@ const displayWords = (words) => {
               <button onclick="detailsLoad(${word.id})"><i class="fa-solid fa-circle-info" style="color: #374957"></i></button>
             </div>
             <div class="bg-[#1A91FF]/10 p-3 rounded-sm hover:bg-[#1A91FF]/80">
-              <i class="fa-solid fa-volume" style="color: #374957"></i>
+              <button onclick="pronounceWord('${word.word}')"><i class="fa-solid fa-volume" style="color: #374957"></i></button>
             </div>
           </div>
         </div>
@@ -187,3 +187,9 @@ document.getElementById("search-btn").addEventListener("click", () => {
       }
     });
 });
+
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
